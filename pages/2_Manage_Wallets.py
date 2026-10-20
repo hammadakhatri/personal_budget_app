@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
-from database import get_db
-from crud import create_account, get_accounts
+from db_operations.core import get_db
+from db_operations.accounts import create_account, get_accounts, delete_account
 from styles import get_custom_css
+from auth import require_auth
 
 st.set_page_config(page_title="Manage Wallets", page_icon="👛")
 st.markdown(get_custom_css(), unsafe_allow_html=True)
@@ -11,6 +12,7 @@ st.header("👛 Manage Wallets")
 st.markdown("Create and view your accounts here.")
 
 db = next(get_db())
+user = require_auth(db)
 
 # Create New Wallet Form
 with st.container():
@@ -29,9 +31,9 @@ with st.container():
             if submitted:
                 if name:
                     try:
-                        create_account(db, name, currency, initial_balance)
+                        create_account(db, user.id, name, currency, initial_balance)
                         st.balloons()
-                        st.success(f"Wallet '{name}' created successfully!")
+                        st.toast(f"Wallet '{name}' created successfully!", icon="👛")
                         st.rerun()
                     except Exception as e:
                         st.error(f"Error creating wallet: {e}")
@@ -57,6 +59,16 @@ if accounts:
                 """,
                 unsafe_allow_html=True
             )
+            
+            # Delete button below card
+            if st.button(f"🗑️ Delete {acc.name}", key=f"delete_acc_{acc.id}", type="secondary"):
+                try:
+                    delete_account(db, acc.id)
+                    st.toast(f"Wallet '{acc.name}' deleted!", icon="🗑️")
+                    st.rerun()
+                except ValueError as e:
+                    st.error(str(e))
 else:
     st.info("No wallets found. Create one above!")
+
 

@@ -1,4 +1,7 @@
-streamlit
+streamlit>=1.42
 sqlalchemy
 pandas
-psycopg2-binary # For Postgres later
+psycopg2-binary
+plotly
+python-dotenv
+Authlib>=1.3.2

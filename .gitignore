@@ -4,3 +4,8 @@ __pycache__/
 *.db
 .env
 .DS_Store
+
+# local only: OAuth secrets, server dump, temp files
+.streamlit/secrets.toml
+sftp_downloads/
+tmpclaude-*

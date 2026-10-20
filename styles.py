@@ -3,109 +3,240 @@ def get_custom_css():
     return """
     <style>
         /* Import a nice font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+        /* Global Font */
         html, body, [class*="css"] {
             font-family: 'Inter', sans-serif;
-            color: #333333; /* Default text dark grey */
         }
 
-        /* Sidebar Styling - Dark and Modern */
+        /* Sidebar Styling */
         [data-testid="stSidebar"] {
-            background-color: #1E293B; /* Dark Blue-Grey */
+            background-color: #020617; /* Very Dark Slate */
+            border-right: 1px solid #1e293b;
         }
         [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
-            color: #FFFFFF !important; /* White text in sidebar */
-        }
-        [data-testid="stSidebar"] .stRadio label {
-             color: #E2E8F0 !important;
-        }
-
-        /* Cards for Metrics */
-        div[data-testid="stMetric"] {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            color: #1e293b;
+            color: #F8FAFC !important;
         }
         
-        /* Metric Labels */
+        /* Metric Cards */
+        div[data-testid="stMetric"] {
+            background-color: #1e293b; /* Dark card background */
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        div[data-testid="stMetric"]:hover {
+             transform: translateY(-2px);
+             border-color: #475569;
+        }
+        
         div[data-testid="stMetricLabel"] {
-            color: #64748b !important; /* Muted slate */
+            color: #94a3b8 !important; /* Muted text */
+            font-size: 0.9rem !important;
+            font-weight: 500;
         }
         div[data-testid="stMetricValue"] {
-            color: #0f172a !important; /* Dark slate */
+            color: #f8fafc !important; /* White text */
+            font-weight: 700;
+        }
+
+        /* Input Fields & Select Boxes */
+        /* Target the input container to ensure background is dark and text is light */
+        div[data-baseweb="input"] > div, div[data-baseweb="select"] > div {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            border-radius: 8px !important;
+            color: white !important;
+        }
+        
+        /* The actual input text element */
+        input[type="text"], input[type="number"], input[type="date"] {
+            color: white !important;
+        }
+        
+        /* Dropdown text color */
+        div[data-baseweb="select"] span {
+            color: white !important;
+        }
+        
+        /* Helper text/Label */
+        label[data-testid="stWidgetLabel"] p {
+            font-size: 0.9rem;
+            color: #cbd5e1 !important; /* Light text for labels */
         }
 
         /* Buttons */
         div[data-testid="stButton"] > button {
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
-            padding: 0.5rem 1rem;
-            transition: all 0.2s;
+            padding: 0.5rem 1.25rem;
             border: none;
-            background-color: #3b82f6; /* Blue 500 */
-            color: white !important;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Primary Button */
+        div[data-testid="stButton"] > button:first-child {
+             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+             color: white !important;
         }
         div[data-testid="stButton"] > button:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
-            background-color: #2563eb; /* Blue 600 */
-        }
-        
-        /* Secondary/Form Buttons */
-        div[data-testid="stForm"] div[data-testid="stButton"] > button {
-            background-color: #10b981; /* Emerald 500 */
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
         }
 
-        /* Custom Wallet Card */
+        /* Secondary Button */
+        button[kind="secondary"] {
+            background-color: transparent !important;
+            border: 1px solid #ef4444 !important;
+            color: #ef4444 !important;
+        }
+        button[kind="secondary"]:hover {
+             background-color: rgba(239, 68, 68, 0.1) !important;
+        }
+
+        /* Wallet Cards */
         .wallet-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); /* Dark gradient base */
+            border: 1px solid #334155;
             color: white !important;
             padding: 24px;
-            border-radius: 16px;
+            border-radius: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
-        .wallet-card:hover {
-            transform: translateY(-2px);
-        }
+        
         .wallet-card.pkr {
-            background: linear-gradient(135deg, #059669 0%, #34d399 100%); /* Emerald Gradient */
+            border-top: 4px solid #10b981; /* Green Top for PKR */
         }
         .wallet-card.usd {
-            background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%); /* Blue Gradient */
+             border-top: 4px solid #3b82f6; /* Blue Top for USD */
         }
+
+        .wallet-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            border-color: #475569;
+        }
+
         .wallet-currency {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 8px;
             font-weight: 600;
-            margin-bottom: 4px;
         }
         .wallet-balance {
-            font-size: 2rem;
+            font-size: 2.25rem;
             font-weight: 800;
-            margin-top: 8px;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
+            color: #f8fafc;
         }
         .wallet-name {
             font-size: 1.1rem;
             font-weight: 500;
-            opacity: 0.95;
+            color: #cbd5e1;
+            margin-top: 4px;
         }
         
-        /* Headers */
+        /* Header Colors */
         h1, h2, h3 {
-            color: #1e293b;
-            font-weight: 700;
+            color: #f8fafc !important;
+        }
+        
+        /* Expander */
+        div[data-testid="stExpander"] {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+        
+        /* Toast style */
+        div[data-testid="stToast"] {
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid #334155;
         }
     </style>
+    """ 
+    + """
+    <style>
+        /* Transaction Row Styling */
+        .transaction-row {
+            display: flex;
+            align_items: center;
+            justify_content: space-between;
+            padding: 12px 16px;
+            background-color: #1e293b; /* Dark Slate */
+            border: 1px solid #334155;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .transaction-row:hover {
+            transform: translateX(4px);
+            border-color: #475569;
+            background-color: #263345;
+        }
+        
+        .t-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify_content: center;
+            font-size: 1.2rem;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .t-icon.income { background-color: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .t-icon.expense { background-color: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .t-icon.transfer { background-color: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        
+        .t-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-right: 16px;
+        }
+        
+        .t-description {
+            font-weight: 600;
+            color: #f8fafc;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        
+        .t-category {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        
+        .t-date {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-right: 16px;
+            white-space: nowrap;
+        }
+        
+        .t-amount {
+            font-weight: 700;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        .t-amount.income { color: #10b981; }
+        .t-amount.expense { color: #ef4444; }
+        .t-amount.transfer { color: #3b82f6; }
+    </style>
     """
-
